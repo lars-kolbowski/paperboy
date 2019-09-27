@@ -37,5 +37,6 @@ if n_results > 0:
         break
     handle.close()
 
-client.chat_postMessage(channel='#papers',
-                        text=f"No papers published today ({today_str}):")
+else:
+    client.chat_postMessage(channel='#papers',
+                            text=f"No papers published today ({today_str}):")
