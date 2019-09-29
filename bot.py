@@ -34,7 +34,6 @@ if n_results > 0:
               f"{record[0]['FullJournalName']} - {link}\n"
         txt += ", ".join([a for a in record[0]['AuthorList']])
         client.chat_postMessage(channel='#papers', text=txt)
-        break
     handle.close()
 
 else:
