@@ -67,31 +67,21 @@ bioRxiv_results_df = biomedrxivsearch(
 n_pubmed_results = len(pubMed_results["IdList"])
 
 if n_pubmed_results > 0:
-
-    client.chat_postMessage(
-        channel='#papers',
-        text=f"I found {n_pubmed_results} crosslinking paper(s) published yesterday ({yesterday_str}):"
-    )
-    # BioRxiv
-    if len(bioRxiv_results_df) > 0:
-        for i, row in bioRxiv_results_df.iterrows():
-            # post result
-            txt = f"*{row['title']}*\n" \
-                  f"bioRxiv - {row['url']}\n" \
-                  f"{row['authors']}"
-            client.chat_postMessage(channel='#papers', text=txt)
-
+    txt = f"I found {n_pubmed_results} paper(s) published yesterday ({yesterday_str}):\n\n"
     # PubMed
     for res_id in pubMed_results["IdList"]:
         handle = Entrez.esummary(db="pubmed", id=res_id)
         record = Entrez.read(handle)
-
-        link = f"https://doi.org/{record[0]['DOI']}"
-        txt = f"*{record[0]['Title']}*\n" \
-              f"{record[0]['FullJournalName']} - {link}\n"
+        try:
+            link = f"https://doi.org/{record[0]['DOI']}"
+        except KeyError:
+            link = f"https://www.ncbi.nlm.nih.gov/pubmed/{res_id}"
+        txt += f"*{record[0]['Title']}*\n" \
+               f"{record[0]['FullJournalName']} - {link}\n"
         txt += ", ".join([a for a in record[0]['AuthorList']])
-        client.chat_postMessage(channel='#papers', text=txt)
+        txt += "\n\n"
     handle.close()
+    client.chat_postMessage(channel='#papers', text=txt)
 else:
     client.chat_postMessage(channel='#papers',
                             text=f"No papers published yesterday ({yesterday_str}):")
@@ -100,19 +90,16 @@ else:
 n_bioRxiv_results = len(bioRxiv_results_df)
 
 if n_bioRxiv_results > 0:
-    client.chat_postMessage(
-        channel='#papers',
-        text=f"I found {n_bioRxiv_results} preprint(s) published yesterday ({yesterday_str}):"
-    )
+    txt = f"I found {n_bioRxiv_results} preprint(s) published yesterday ({yesterday_str}):\n\n"
     # BioRxiv
     if len(bioRxiv_results_df) > 0:
         for i, row in bioRxiv_results_df.iterrows():
             # post result
-            txt = f"*{row['title']}*\n" \
-                  f"bioRxiv - {row['url']}\n" \
-                  f"{row['authors']}"
-            client.chat_postMessage(channel='#papers', text=txt)
-
+            txt += f"*{row['title']}*\n" \
+                  f"bioRxiv - {row['url']}\n"
+            txt += ", ".join(row['authors'])
+            txt += "\n\n"
+    client.chat_postMessage(channel='#papers', text=txt)
 else:
     client.chat_postMessage(channel='#papers',
                             text=f"No preprints published yesterday ({yesterday_str}):")
