@@ -21,36 +21,6 @@ handle = Entrez.esearch(
 )
 pubMed_results = Entrez.read(handle)
 
-# Biorxiv API only returns published papers
-# https://api.biorxiv.org/details/biorxiv/2018-08-21/2018-08-28/0
-# import requests
-# import json
-#
-# journal_list = ['Bioinformatics', 'Biochemistry', 'Molecular Biology', ],
-#
-# url = f'https://api.biorxiv.org/pubs/biorxiv/' \
-#       f'{yesterday.year}-{yesterday.month}-16/{yesterday.year}-{yesterday.month}-{yesterday.day}'
-# response = requests.get(url)
-# if response.status_code == 200:
-#     res = json.loads(response.content)
-# else:
-#     raise Exception(response.status_code)
-#
-# try:
-#     for res in res['collection']:
-#         if res['published_journal'] not in journal_list:
-#             continue
-#
-#         # post result
-#         link = f"https://doi.org/{res['preprint_doi']}"
-#         txt = f"*{res['preprint_title']}*\n" \
-#               f"bioRxiv - {link}\n" \
-#               f"{res['preprint_authors']}"
-#         client.chat_postMessage(channel='#papers', text=txt)
-#
-# except KeyError:
-#     pass
-
 bioRxiv_results_df = biomedrxivsearch(
     start_date=yesterday - datetime.timedelta(1),
     end_date=yesterday,
