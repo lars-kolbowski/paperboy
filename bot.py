@@ -1,7 +1,7 @@
 import slack
 from Bio import Entrez
 import datetime
-from credentials import SLACK_API_TOKEN, ENTREZ_EMAIL
+from credentials import SLACK_API_TOKEN, ENTREZ_EMAIL, SLACK_CHANNEL
 from biomedrxiv_search_function import biomedrxivsearch
 
 
@@ -80,9 +80,9 @@ if n_pubmed_results > 0:
         txt += ", ".join([a for a in record[0]['AuthorList']])
         txt += "\n\n"
     handle.close()
-    client.chat_postMessage(channel='#papers', text=txt)
+    client.chat_postMessage(channel=SLACK_CHANNEL, text=txt)
 else:
-    client.chat_postMessage(channel='#papers',
+    client.chat_postMessage(channel=SLACK_CHANNEL,
                             text=f"No papers published yesterday ({yesterday_str}):")
 
 
@@ -98,7 +98,7 @@ if n_bioRxiv_results > 0:
                   f"bioRxiv - {row['url']}\n"
             txt += ", ".join(row['authors'])
             txt += "\n\n"
-    client.chat_postMessage(channel='#papers', text=txt)
+    client.chat_postMessage(channel=SLACK_CHANNEL, text=txt)
 else:
-    client.chat_postMessage(channel='#papers',
+    client.chat_postMessage(channel=SLACK_CHANNEL,
                             text=f"No preprints published yesterday ({yesterday_str}):")
