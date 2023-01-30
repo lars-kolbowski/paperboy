@@ -1,7 +1,6 @@
 import slack
 from Bio import Entrez
 import datetime
-import os
 from credentials import SLACK_API_TOKEN, ENTREZ_EMAIL
 from biomedrxiv_search_function import biomedrxivsearch
 
