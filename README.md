@@ -13,7 +13,7 @@ Create a new App in Slack: https://api.slack.com/authentication/basics, give the
 
 Fill your Slack token, channel and an email address for the Entrez search in the credentials.py.template and save the file as credentials.py
 
-Modify `run_paperboy.sh`, replace <PATH-TO-REPOSITORY> with the paperboy path.
+Modify `run_paperboy.sh`, replace `<PATH-TO-REPOSITORY>` with the paperboy path.
 
 Create a cronjob
  `crontab -e`
