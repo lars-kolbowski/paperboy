@@ -19,4 +19,5 @@ Create a cronjob
  `crontab -e`
  
  Add the following line to enable the cronjob (The bot will run every day at 12pm)
+ 
  `0 12 * * * <PATH_TO_REPOSITORY>/run_paperboy.sh`
