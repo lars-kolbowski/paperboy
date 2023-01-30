@@ -1,18 +1,18 @@
 import slack
 from Bio import Entrez
 import datetime
+import os
+from credentials import SLACK_API_TOKEN, ENTREZ_EMAIL
 from biomedrxiv_search_function import biomedrxivsearch
 
 
-# client = slack.WebClient(token=os.environ['SLACK_API_TOKEN'])
-slack_token = "***REMOVED***"
-client = slack.WebClient(token=slack_token)
+client = slack.WebClient(token=SLACK_API_TOKEN)
 
 # use yesterday to make sure we don't miss new papers
 yesterday = datetime.datetime.now() - datetime.timedelta(1)
 
 yesterday_str = f'{yesterday.year}/{yesterday.month}/{yesterday.day}'
-Entrez.email = '***REMOVED***'
+Entrez.email = ENTREZ_EMAIL
 handle = Entrez.esearch(
     db='pubmed',
     term='((cross-linking OR (crosslinking OR (CLMS OR (XL-MS OR CX-MS)))) AND protein) OR AP-MS '
